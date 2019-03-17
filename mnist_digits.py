@@ -19,15 +19,12 @@ import os
 
 #%%
 (X_train,y_train),(X_test,y_test) = mnist.load_data()
-x_csv = pd.read_csv('C:\\Users\ABDUL BASID\Desktop\\2019\digit-recognizer\\test.csv')
 
 X_train=X_train.reshape(X_train.shape[0],28,28,1).astype('float32')
 X_test=X_test.reshape(X_test.shape[0],28,28,1).astype('float32')
-x_csv=x_csv.values.reshape(-1,28,28,1).astype('float32')
 
 print(X_train.shape)
 print(X_test.shape)
-print(x_csv.shape)
 
 #%%
 X_train_ = X_train.reshape(X_train.shape[0], 28, 28)
@@ -41,7 +38,7 @@ for i, ax in enumerate(axis.flat):
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
 num_classes = y_test.shape[1]
-print(num_classes)
+#   print(num_classes)
 
 
 #%%
@@ -52,7 +49,7 @@ def standardize(x):
 
 
 #%%
-def model3():
+def model():
     model=Sequential()
 
     model.add(Lambda(standardize,input_shape=(28,28,1)))
@@ -92,24 +89,13 @@ def model3():
     return model
 
 #%%
-model=model3()
+model = model()
 
 #%%
-model.load_weights('C:\\Users\\ABDUL BASID\\Desktop\\2019\\digit-recognizer\\cp-0040.ckpt')
+""" to use pretrained weights for this architechture """
+model.load_weights('~\\weights\\cp-0040.ckpt')
+
+#%%
+""" or """
 loss, acc = model.evaluate(X_test, y_test)
-print("Restored model, accuracy: {:5.2f}%".format(100*acc))
-
-#%%
-y = model.predict(x_csv, batch_size=None, verbose=1, steps=None)
-
-#%%
-print(y.shape)
-
-#%%
-y = np.argmax(y,axis = 1)
-y = pd.Series(y,name="Label")
-
-#%%
-submission = pd.concat([pd.Series(range(1,28001),name = "ImageId"),y],axis = 1)
-# Create final csv file for submission
-submission.to_csv("cnn_mnist_datagen2.csv",index=False)
+print(f'accuracy: {100*acc}%, loss: {round(loss, 5)}')
