@@ -1,5 +1,5 @@
 # mnist-Digit-Recognizer
- A simple Digit Recognizer with the famous MNIST data using CNN having validation accuracy of about 93.6%
+ A simple Digit Recognizer with the famous MNIST data using CNN having validation accuracy of about 99.61%
 
 ## Data
 The image data has been drawn from keras dataset using
